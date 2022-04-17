@@ -1,19 +1,18 @@
 ﻿using Spectre.Console;
 using Spectre.Console.Cli;
-using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace PromLab01
+namespace Lab01
 {
-    public class SumCommands : Command<SumCommands.SumSquareCommandSettings>
+    public class SumCommand : Command<SumCommand.SumSquareCommandSettings>
     {
         public class SumSquareCommandSettings : CommandSettings
         {
         }
 
-        private readonly IXmlFigureRepository _figureRepository;
+        private readonly IXmlRepository _figureRepository;
 
-        public SumCommands(IXmlFigureRepository figureRepository)
+        public SumCommand(IXmlRepository figureRepository)
         {
             _figureRepository = figureRepository;
         }
@@ -21,9 +20,8 @@ namespace PromLab01
         public override int Execute([NotNull] CommandContext context, [NotNull] SumSquareCommandSettings settings)
         {
             _figureRepository.OpenFile(_figureRepository.StorageFileName);
-            AnsiConsole.Write("Total area:\n" + _figureRepository.TotalSum());
-            AnsiConsole.Write("\nTotal area using System.Linq:\n" + _figureRepository.SumSystemLinq());
-            Console.ReadLine();
+            AnsiConsole.Write("Total area:\n" + _figureRepository.Sum());
+            AnsiConsole.Write("\nTotal area using System.Linq:\n" + _figureRepository.SumLinq());
             return 0;
         }
     }
