@@ -56,13 +56,17 @@ namespace Lab1.Commands
                 case "Area comparing":
                     if (data[index1].GetArea() > data[index2].GetArea())
                         AnsiConsole.Write("{0} is larger", index1);
-                    else AnsiConsole.Write("{0} is larger", index2);
+                    else if (data[index1].GetArea() < data[index2].GetArea())
+                        AnsiConsole.Write("{0} is larger", index2);
+                    else AnsiConsole.Write("Shapes are equal", index2);
                     break;
 
                 case "Perimeter comparing":
                     if (data[index1].GetPerimeter() > data[index2].GetPerimeter())
                         AnsiConsole.Write("{0} is larger", index1);
-                    else AnsiConsole.Write("{0} is larger", index2);
+                    else if (data[index1].GetPerimeter() < data[index2].GetPerimeter())
+                        AnsiConsole.Write("{0} is larger", index2);
+                    else AnsiConsole.Write("Shapes are equal", index2);
                     break;
 
                 default:
