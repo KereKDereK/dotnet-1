@@ -16,14 +16,18 @@ namespace Lab1
         public void AddShape(int index, Shape shape)
         {
             OpenFile(StorageFileName);
-            Shapes!.Add(shape);
+            if (index > Shapes!.Count)
+                Shapes!.Add(shape);
+            else
+                Shapes!.Insert(index, shape);
             SaveFile(StorageFileName);
         }
 
         public void DeleteShape(int index)
         {
             OpenFile(StorageFileName);
-            Shapes!.RemoveAt(index);
+            if (index <= Shapes!.Count)
+                Shapes!.RemoveAt(index);
             SaveFile(StorageFileName);
         }
 
