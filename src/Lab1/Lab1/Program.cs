@@ -1,9 +1,9 @@
-﻿using Lab1.Infrastructure;
+﻿using Lab1.Commands;
+using Lab1.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
-using Lab01.Commands;
 using Spectre.Console.Cli;
 
-namespace Lab01
+namespace Lab1
 {
     internal class Program
     {

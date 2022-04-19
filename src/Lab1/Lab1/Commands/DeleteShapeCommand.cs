@@ -2,7 +2,7 @@
 using Spectre.Console.Cli;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Lab01.Commands
+namespace Lab1.Commands
 {
     public class DeleteShapeCommand : Command<DeleteShapeCommand.DeleteShapeSettings>
     {
@@ -19,21 +19,23 @@ namespace Lab01.Commands
 
         public override int Execute([NotNull] CommandContext context, [NotNull] DeleteShapeSettings settings)
         {
-            _shapeRepository.OpenFile(_shapeRepository.StorageFileName);
-            if (_shapeRepository.Shapes.Count == 0)
+            if (_shapeRepository.GetAll().Count == 0)
             {
                 AnsiConsole.Write("There are no figures\n");
                 return 0;
             }
-            int index = 0;
-            index = AnsiConsole.Prompt(new TextPrompt<int>(" Please enter desired shape index :"));
-            if (_shapeRepository.CheckIndex(index))
-            {
-                _shapeRepository.DeleteShape(index);
-            }
-            else
-                AnsiConsole.Write("Incorrect index\n");
-            _shapeRepository.SaveFile(_shapeRepository.StorageFileName);
+            int index = AnsiConsole.Prompt(
+                new TextPrompt<int>("Enter desired shape index:")
+                .ValidationErrorMessage("Invalid index")
+                    .Validate(index =>
+                    {
+                        return index switch
+                        {
+                            < 0 => ValidationResult.Error("The index must be positive number"),
+                            _ => ValidationResult.Success(),
+                        };
+                    }));
+            _shapeRepository.DeleteShape(index);
             return 0;
         }
     }

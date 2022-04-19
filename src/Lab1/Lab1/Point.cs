@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace Lab01
+namespace Lab1
 {
-
-    [Serializable]
-    [XmlRoot("Point")]
     public struct Point
     {
         [XmlElement("X")]
         public double X
         {
-            get;
+            get; init;
         }
         [XmlElement("Y")]
         public double Y
         {
-            get;
+            get; init;
         }
 
         public Point(double x, double y)
@@ -25,12 +22,12 @@ namespace Lab01
             Y = y;
         }
 
-        new public string ToString()
+        public override string ToString()
         {
             return "(" + X + ";" + Y + ")";
         }
 
-        static public double GetLength(Point a, Point b)
+        public static double GetLength(Point a, Point b)
         {
             return Math.Sqrt(Math.Pow(b.X - a.X, 2) + Math.Pow(b.Y - a.Y, 2));
         }

@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace Lab01
+namespace Lab1
 {
-
-    [Serializable]
-    [XmlRoot("Rectangle")]
     public class Rectangle : Shape
     {
-        [XmlElement("First_point")]
+        [XmlElement("FirstPoint")]
         public Point A
         {
-            get;
+            get; init;
         }
-        [XmlElement("Second_point")]
+        [XmlElement("SecondPoint")]
         public Point B
         {
-            get;
+            get; init;
         }
         public Rectangle(Point a, Point b)
         {
@@ -32,26 +29,26 @@ namespace Lab01
         }
         public Rectangle()
         {
-            A = new Point(0,0);
-            B = new Point(1,1);
+            A = new Point(0, 0);
+            B = new Point(1, 1);
         }
 
-        override public double GetArea()
+        public override double GetArea()
         {
             return Math.Abs(B.X - A.X) * Math.Abs(B.Y - A.Y);
         }
 
-        override public double GetPerimeter()
+        public override double GetPerimeter()
         {
             return 2 * Math.Abs(B.X - A.X) + 2 * Math.Abs(B.Y - A.Y);
         }
 
-        override public Rectangle GetBorders()
+        public override Rectangle GetBorders()
         {
             return new Rectangle(A, B);
         }
 
-        override public string ToString()
+        public override string ToString()
         {
             return "{" + A.ToString() + ";" + B.ToString() + "}";
         }

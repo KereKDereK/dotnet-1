@@ -1,8 +1,9 @@
 ﻿using Spectre.Console;
 using Spectre.Console.Cli;
+using System.Linq;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Lab01
+namespace Lab1
 {
     public class SumCommand : Command<SumCommand.SumSquareCommandSettings>
     {
@@ -19,9 +20,12 @@ namespace Lab01
 
         public override int Execute([NotNull] CommandContext context, [NotNull] SumSquareCommandSettings settings)
         {
-            _figureRepository.OpenFile(_figureRepository.StorageFileName);
-            AnsiConsole.Write("Total area:\n" + _figureRepository.Sum());
-            AnsiConsole.Write("\nTotal area using System.Linq:\n" + _figureRepository.SumLinq());
+            var data = _figureRepository.GetAll();
+            var sum = 0.0;
+            foreach (var shape in data)
+                sum += shape.GetArea();
+            AnsiConsole.Write("Total area:\n" + sum);
+            AnsiConsole.Write("\nTotal area using System.Linq:\n" + data.Sum(f => f.GetArea()));
             return 0;
         }
     }

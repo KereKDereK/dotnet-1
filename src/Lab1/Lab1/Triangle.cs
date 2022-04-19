@@ -1,26 +1,24 @@
 ﻿using System;
-using System.Linq;
 using System.Xml.Serialization;
 
-namespace Lab01
+namespace Lab1
 {
-
-    [Serializable]
-    [XmlRoot("Triangle")]
     public class Triangle : Shape
     {
-        [XmlElement("Points")]
+        [XmlElement("FirstPoint")]
         public Point A
         {
-            get;
+            get; init;
         }
+        [XmlElement("SecondPoint")]
         public Point B
         {
-            get;
+            get; init;
         }
+        [XmlElement("ThirdPoint")]
         public Point C
         {
-            get;
+            get; init;
         }
 
         public Triangle(Point a, Point b, Point c)
@@ -31,32 +29,12 @@ namespace Lab01
         }
         public Triangle()
         {
-            A=  new Point(0, 0);
+            A = new Point(0, 0);
             B = new Point(1, 1);
             C = new Point(-1, 1);
         }
 
-        private double MinX()
-        {
-            return Math.Min(Math.Min(A.X, B.X), C.X);
-        }
-
-        private double MinY()
-        {
-            return Math.Min(Math.Min(A.Y, B.Y), C.Y);
-        }
-
-        private double MaxX()
-        {
-            return Math.Max(Math.Max(A.X, B.X), C.X);
-        }
-
-        private double MaxY()
-        {
-            return Math.Max(Math.Min(A.Y, B.Y), C.Y);
-        }
-
-        override public double GetArea()
+        public override double GetArea()
         {
             return Math.Sqrt(GetPerimeter()
                 * (GetPerimeter() - Point.GetLength(A, B))
@@ -64,20 +42,22 @@ namespace Lab01
                 * (GetPerimeter() - Point.GetLength(C, A)));
         }
 
-        override public double GetPerimeter()
+        public override double GetPerimeter()
         {
             return Point.GetLength(A, B)
                 + Point.GetLength(B, C)
                 + Point.GetLength(C, A);
         }
 
-        override public Rectangle GetBorders()
+        public override Rectangle GetBorders()
         {
-            return new Rectangle(new Point(MinX(), MinY()),
-                new Point(MaxX(), MaxY()));
+            return new Rectangle(new Point(Math.Min(Math.Min(A.X, B.X), C.X),
+                Math.Min(Math.Min(A.Y, B.Y), C.Y)),
+                new Point(Math.Max(Math.Max(A.X, B.X), C.X),
+                Math.Max(Math.Min(A.Y, B.Y), C.Y)));
         }
 
-        override public string ToString()
+        public override string ToString()
         {
             return "{" + A.ToString() + ";" + B.ToString()
                 + ";" + C.ToString() + "}";
