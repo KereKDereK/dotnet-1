@@ -1,5 +1,4 @@
-﻿using System;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace Lab1
 {
@@ -11,6 +10,6 @@ namespace Lab1
         public abstract double GetArea();
         public abstract double GetPerimeter();
         public abstract Rectangle GetBorders();
-        public override abstract string ToString();
+        public abstract override string ToString();
     }
 }

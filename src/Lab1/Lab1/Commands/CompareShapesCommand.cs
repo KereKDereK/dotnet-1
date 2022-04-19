@@ -1,6 +1,5 @@
 ﻿using Spectre.Console;
 using Spectre.Console.Cli;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Lab1.Commands

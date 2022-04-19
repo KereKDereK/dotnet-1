@@ -1,6 +1,5 @@
 ﻿using Spectre.Console;
 using Spectre.Console.Cli;
-using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Lab1.Commands
@@ -43,7 +42,7 @@ namespace Lab1.Commands
             switch (figure)
             {
                 case "Rectangle":
-                    _shapeRepository.AddShape(index, new Rectangle 
+                    _shapeRepository.AddShape(index, new Rectangle
                         (new Point(AnsiConsole.Ask<double>("Type [green]first[/] point [green]X[/]: "),
                         AnsiConsole.Ask<double>("Type [green]first[/] point [green]Y[/]: ")),
                         new Point(AnsiConsole.Ask<double>("Type [green]second[/] point [green]X[/]: "),

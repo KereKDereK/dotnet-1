@@ -7,36 +7,36 @@ namespace Lab1
 {
     public class XmlShapeRepository : IXmlRepository
     {
-        private string StorageFileName = "shapes.xml";
+        private readonly string StorageFileName = "shapes.xml";
 
-        private List<Shape> Shapes;
+        private List<Shape>? Shapes;
 
         public XmlShapeRepository() { }
 
         public void AddShape(int index, Shape shape)
         {
             OpenFile(StorageFileName);
-            Shapes.Add(shape);
+            Shapes!.Add(shape);
             SaveFile(StorageFileName);
         }
 
         public void DeleteShape(int index)
         {
             OpenFile(StorageFileName);
-            Shapes.RemoveAt(index);
+            Shapes!.RemoveAt(index);
             SaveFile(StorageFileName);
         }
 
         public List<Shape> GetAll()
         {
             OpenFile(StorageFileName);
-            return Shapes;
+            return Shapes!;
         }
 
         public void DeleteAll()
         {
             OpenFile(StorageFileName);
-            Shapes.RemoveRange(0, Shapes.Count);
+            Shapes!.RemoveRange(0, Shapes.Count);
             SaveFile(StorageFileName);
         }
 
@@ -55,7 +55,7 @@ namespace Lab1
             {
                 XmlSerializer formatter = new(typeof(List<Shape>));
                 FileStream stream = new(path, FileMode.OpenOrCreate);
-                Shapes = (List<Shape>)formatter.Deserialize(stream);
+                Shapes = (List<Shape>)formatter.Deserialize(stream)!;
                 stream.Close();
             }
             catch (Exception)
