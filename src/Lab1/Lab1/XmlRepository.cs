@@ -9,62 +9,61 @@ namespace Lab1
     {
         private readonly string StorageFileName = "shapes.xml";
 
-        private List<Shape>? Shapes;
+        private List<Shape>? _shapes;
 
         public XmlShapeRepository() { }
 
         public void AddShape(int index, Shape shape)
         {
-            OpenFile(StorageFileName);
-            if (index > Shapes!.Count)
-                Shapes!.Add(shape);
+            var shapes = OpenFile(StorageFileName);
+            if (index > shapes.Count)
+                shapes.Add(shape);
             else
-                Shapes!.Insert(index, shape);
+                shapes.Insert(index, shape);
             SaveFile(StorageFileName);
         }
 
         public void DeleteShape(int index)
         {
-            OpenFile(StorageFileName);
-            if (index <= Shapes!.Count)
-                Shapes!.RemoveAt(index);
+            var shapes = OpenFile(StorageFileName);
+            if (index <= shapes.Count)
+                shapes.RemoveAt(index);
             SaveFile(StorageFileName);
         }
 
         public List<Shape> GetAll()
         {
-            OpenFile(StorageFileName);
-            return Shapes!;
+            return OpenFile(StorageFileName);
         }
 
         public void DeleteAll()
         {
-            OpenFile(StorageFileName);
-            Shapes!.RemoveRange(0, Shapes.Count);
+            var shapes = OpenFile(StorageFileName);
+            shapes.RemoveRange(0, shapes.Count);
             SaveFile(StorageFileName);
         }
 
-        private void OpenFile(string path)
+        private List<Shape> OpenFile(string path)
         {
-            if (Shapes != null)
-                return;
+            if (_shapes is not null)
+                return _shapes;
 
             if (!File.Exists(StorageFileName))
             {
-                Shapes = new List<Shape>();
-                return;
+                _shapes = new List<Shape>();
+                return _shapes;
             }
 
             try
             {
-                XmlSerializer formatter = new(typeof(List<Shape>));
-                FileStream stream = new(path, FileMode.OpenOrCreate);
-                Shapes = (List<Shape>)formatter.Deserialize(stream)!;
-                stream.Close();
+                var formatter = new XmlSerializer(typeof(List<Shape>));
+                using var stream = new FileStream(path, FileMode.OpenOrCreate);
+                _shapes = (List<Shape>?)formatter.Deserialize(stream) ?? throw new Exception("Failed to deserialize");
+                return _shapes;
             }
-            catch (Exception)
+            catch
             {
-                Console.Write("File can't be opened\n");
+                throw new Exception("File can't be opened");
             }
         }
         private void SaveFile(string path)
@@ -72,13 +71,12 @@ namespace Lab1
             try
             {
                 XmlSerializer formatter = new(typeof(List<Shape>));
-                FileStream stream = new(path, FileMode.Create);
-                formatter.Serialize(stream, Shapes);
-                stream.Close();
+                using var stream = new FileStream(path, FileMode.Create);
+                formatter.Serialize(stream, _shapes);
             }
-            catch (Exception)
+            catch
             {
-                Console.Write("File can't be saved\n");
+                throw new Exception("File can't be saved");
             }
         }
     }
